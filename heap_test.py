@@ -1,5 +1,5 @@
 import pytest
-from heap import Heap
+from heap import Heap, OutOfMemoryException
 
 @pytest.fixture
 def heap():
@@ -13,6 +13,10 @@ def test_allocate_returns_heap_index(heap):
 def test_allocated_space_can_be_freed(heap):
 	i = heap.allocate(10)
 	heap.free(i, 10)
+
+def test_excessive_allocation_raises_exception(heap):
+	with pytest.raises(OutOfMemoryException):
+		heap.allocate(2000)
 
 def test_free_space_cannot_be_freed(heap):
 	# todo, should an exception be raised?

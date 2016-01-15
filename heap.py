@@ -19,7 +19,7 @@ class Heap:
 				self.free_list.add_node(new_node)
 			return node.heap_index
 		else:
-			return -1
+			raise OutOfMemoryException
 
 	def free(self, heap_index, num_bytes):
 		new_node = FreeListNode(heap_index, num_bytes)
@@ -35,3 +35,7 @@ class Heap:
 
 	def size(self):
 		return len(self.data)
+
+
+class OutOfMemoryException(Exception):
+	pass
