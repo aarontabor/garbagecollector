@@ -1,11 +1,6 @@
 from sys import argv, stdin
 from heap import Heap, OutOfMemoryException
-
-
-class Obj: # data-object to store object info
-	def __init__(self, addr, size):
-		self.addr = addr
-		self.size = size
+from heapObject import HeapObject
 
 
 def main():
@@ -14,7 +9,7 @@ def main():
 		exit(1)
 
 	heap = Heap(int(argv[1]))
-	objects = {} # object_id -> Obj
+	objects = {} # object_id -> HeapObject
 
 	try:
 		for line in stdin:
@@ -23,13 +18,13 @@ def main():
 				object_id = int(tokens[1])
 				object_size = int(tokens[2])
 				i = heap.allocate(object_size)
-				objects[object_id] = Obj(i, object_size)
+				objects[object_id] = HeapObject(i, object_size)
 
 			elif tokens[0] == 'f': # free
 				object_id = int(tokens[1])
 				o = objects[object_id]
 				objects.pop(object_id)
-				heap.free(o.addr, o.size)
+				heap.free(o.heap_index, o.size)
 
 			elif tokens[0] == 'e': # end
 				break
