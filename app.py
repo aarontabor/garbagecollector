@@ -15,23 +15,14 @@ def main():
 		for line in stdin:
 			tokens = line.split(' ')
 			if tokens[0] == 'a': # allocate
-				object_id = int(tokens[1])
-				object_size = int(tokens[2])
-				i = heap.allocate(object_size)
-				objects[object_id] = HeapObject(i, object_size)
+				thread_id = int(tokens[1].lstrip('T')) # ignoring this for now...
+				object_id = int(tokens[2].lstrip('O'))
+				object_size = int(tokens[3].lstrip('S'))
+				num_pointers = int(tokens[4].lstrip('N')) # ignoring this for now...
+				class_id = int(tokens[5].lstrip('C')) # ignoring this for now...
 
-			elif tokens[0] == 'f': # free
-				object_id = int(tokens[1])
-				o = objects[object_id]
-				objects.pop(object_id)
-				heap.free(o.heap_index, o.size)
-
-			elif tokens[0] == 'e': # end
-				break
-
-			else: # something went wrong
-				print('Error: could not parse tracefile line:\n\t%s' % line)
-				break
+				heap_index = heap.allocate(object_size)
+				objects[object_id] = HeapObject(heap_index, object_size)
 
 	except OutOfMemoryException:
 		pass
