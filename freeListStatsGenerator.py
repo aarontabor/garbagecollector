@@ -10,7 +10,11 @@ class FreeListsStatsGenerator():
 			return self.bytes_used()/self.heap_size * 100
 
 	def average_node_size(self):
-		return self.bytes_free() / len(self.free_list)
+		l = len(self.free_list)
+		if l == 0:
+			return 0
+		else:
+			return self.bytes_free() / l
 
 	def bytes_free(self):
 		return sum([n.num_bytes for n in self.free_list])

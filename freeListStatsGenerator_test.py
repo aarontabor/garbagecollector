@@ -27,3 +27,7 @@ def test_average_node_size():
 	n3 = FreeListNode(80,20)
 	s = FreeListsStatsGenerator(100, [n1, n2, n3])
 	assert s.average_node_size() == 20
+
+def test_average_node_size_returns_sane_value_with_full_heap():
+	s = FreeListsStatsGenerator(100, [])
+	assert s.average_node_size() == 0
