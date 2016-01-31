@@ -8,6 +8,7 @@ class MemoryMananager:
 		self.heap_size = heap_size
 		self.free_list = [FreeListNode(0, heap_size)]
 		self.objects = {}
+		self.rootset = set()
 		self.allocator = allocator_class(self.free_list)
 
 	def allocate(self, object_id, num_bytes, num_pointers):

@@ -32,6 +32,18 @@ def main():
 
 				m.objects[parent_id].pointers[pointer_index] = object_id
 
+			if tokens[0] == '+': # add to rootset
+				thread_id = int(tokens[1].lstrip('T')) # ignoring this for now...
+				object_id = int(tokens[2].lstrip('O'))
+
+				m.rootset.add(object_id)
+
+			if tokens[0] == '-': # remove from rootset
+				thread_id = int(tokens[1].lstrip('T')) # ignoring this for now...
+				object_id = int(tokens[2].lstrip('O'))
+
+				m.rootset.remove(object_id)
+
 	except OutOfMemoryException:
 		pass
 
