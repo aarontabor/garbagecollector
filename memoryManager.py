@@ -10,9 +10,9 @@ class MemoryMananager:
 		self.objects = {}
 		self.allocator = allocator_class(self.free_list)
 
-	def allocate(self, object_id, num_bytes):
+	def allocate(self, object_id, num_bytes, num_pointers):
 		heap_index = self.allocator.allocate(num_bytes)
-		self.objects[object_id] = HeapObject(heap_index, num_bytes)
+		self.objects[object_id] = HeapObject(heap_index, num_bytes, num_pointers)
 
 	def free(self, object_id):
 		o = self.objects.pop(object_id)
