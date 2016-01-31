@@ -15,18 +15,10 @@ class FirstFitAllocator:
 		raise OutOfMemoryException
 
 	def free(self, heap_index, num_bytes):
-		new_node = FreeListNode(heap_index, num_bytes)
-
-		# todo: this can be much cleaner with a while
-		found = False
-		for (i, node) in enumerate(self.free_list):
-			if node.heap_index > heap_index:
-				self.free_list.insert(i, new_node)
-				found = True
-				break
-		if not found:
-			self.free_list.append(new_node)
-
+		i=0
+		while i < len(self.free_list) and self.free_list[i].heap_index < heap_index:
+			i = i+1
+		self.free_list.insert(i, FreeListNode(heap_index, num_bytes))
 		self.merge_adjacent_nodes() # over-kill, but simple
 
 	def merge_adjacent_nodes(self):
