@@ -1,6 +1,7 @@
 from sys import argv, stdin
-from heap import Heap, OutOfMemoryException
-from heapObject import HeapObject
+from memoryManager import MemoryMananager
+from firstFitAllocator import FirstFitAllocator
+from outOfMemoryException import OutOfMemoryException
 
 
 def main():
@@ -8,8 +9,8 @@ def main():
 		print('Usage: ./app.py <heap size>')
 		exit(1)
 
-	heap = Heap(int(argv[1]))
-	objects = {} # object_id -> HeapObject
+	heap_size = int(argv[1])
+	m = MemoryMananager(FirstFitAllocator, heap_size)
 
 	try:
 		for line in stdin:
@@ -21,15 +22,13 @@ def main():
 				num_pointers = int(tokens[4].lstrip('N')) # ignoring this for now...
 				class_id = int(tokens[5].lstrip('C')) # ignoring this for now...
 
-				heap_index = heap.allocate(object_size)
-				objects[object_id] = HeapObject(heap_index, object_size)
+				m.allocate(object_id, object_size)
 
 	except OutOfMemoryException:
 		pass
 
 	finally:
-		print('%d objects alive at program termination.' % len(objects))
-		heap.stats()
+		print(m.stats())
 		print()
 
 

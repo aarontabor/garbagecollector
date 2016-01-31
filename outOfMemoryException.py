@@ -1,0 +1,2 @@
+class OutOfMemoryException(Exception):
+	pass
