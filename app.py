@@ -6,12 +6,14 @@ from outOfMemoryException import OutOfMemoryException
 
 
 def main():
-	if len(argv) < 2:
-		print('Usage: ./app.py <heap size>')
+	if len(argv) < 4:
+		print('Usage: ./app.py <heap size> <high water percent> <growth factor>')
 		exit(1)
 
 	heap_size = int(argv[1])
-	m = MemoryMananager(FirstFitAllocator, MarkSweepGC, heap_size)
+	high_water_percent = int(argv[2])
+	growth_factor = float(argv[3])
+	m = MemoryMananager(FirstFitAllocator, MarkSweepGC, heap_size, high_water_percent, growth_factor)
 
 	try:
 		for line in stdin:
