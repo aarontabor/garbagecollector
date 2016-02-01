@@ -46,7 +46,7 @@ def main():
 				m.rootset.remove(object_id)
 
 	except OutOfMemoryException:
-		pass
+		print('Out of memory...')
 
 	finally:
 		print(m.stats())
