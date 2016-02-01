@@ -1,4 +1,5 @@
 from freeListNode import FreeListNode
+from freeListUtils import add_node
 from outOfMemoryException import OutOfMemoryException
 
 
@@ -15,19 +16,5 @@ class FirstFitAllocator:
 		raise OutOfMemoryException
 
 	def free(self, heap_index, num_bytes):
-		i=0
-		while i < len(self.free_list) and self.free_list[i].heap_index < heap_index:
-			i = i+1
-		self.free_list.insert(i, FreeListNode(heap_index, num_bytes))
-		self.merge_adjacent_nodes() # over-kill, but simple
+		add_node(self.free_list, FreeListNode(heap_index, num_bytes))
 
-	def merge_adjacent_nodes(self):
-		i = 0
-		while i+1 < len(self.free_list):
-			node = self.free_list[i]
-			next_node = self.free_list[i+1]
-			if node.adjacent_to(next_node):
-				node.num_bytes = node.num_bytes + next_node.num_bytes
-				self.free_list.remove(next_node)
-			else:
-				i = i+1

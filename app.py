@@ -1,6 +1,7 @@
 from sys import argv, stdin
 from memoryManager import MemoryMananager
 from firstFitAllocator import FirstFitAllocator
+from markSweepGC import MarkSweepGC
 from outOfMemoryException import OutOfMemoryException
 
 
@@ -10,7 +11,7 @@ def main():
 		exit(1)
 
 	heap_size = int(argv[1])
-	m = MemoryMananager(FirstFitAllocator, heap_size)
+	m = MemoryMananager(FirstFitAllocator, MarkSweepGC, heap_size)
 
 	try:
 		for line in stdin:

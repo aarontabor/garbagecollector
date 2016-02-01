@@ -1,18 +1,24 @@
 from freeListNode import FreeListNode
 from heapObject import HeapObject
 from freeListStatsGenerator import FreeListsStatsGenerator 
+from outOfMemoryException import OutOfMemoryException
 
 
 class MemoryMananager:
-	def __init__(self, allocator_class, heap_size):
+	def __init__(self, allocator_class, collector_class, heap_size):
 		self.heap_size = heap_size
 		self.free_list = [FreeListNode(0, heap_size)]
 		self.objects = {}
 		self.rootset = set()
 		self.allocator = allocator_class(self.free_list)
+		self.collector = collector_class(self.objects, self.rootset, self.free_list)
 
 	def allocate(self, object_id, num_bytes, num_pointers):
-		heap_index = self.allocator.allocate(num_bytes)
+		try:
+			heap_index = self.allocator.allocate(num_bytes)
+		except OutOfMemoryException:
+			self.collector.collect()
+			heap_index = self.allocator.allocate(num_bytes)
 		self.objects[object_id] = HeapObject(heap_index, num_bytes, num_pointers)
 
 	def free(self, object_id):
