@@ -13,6 +13,7 @@ class MemoryMananager:
 		self.rootset = set()
 		self.allocator = allocator_class(self.free_list, settings)
 		self.collector = collector_class(self.objects, self.rootset, self.free_list, settings)
+		self.stats_generator = FreeListsStatsGenerator(settings, self.free_list)
 
 	def allocate(self, object_id, num_bytes, num_pointers):
 		try:
@@ -23,16 +24,16 @@ class MemoryMananager:
 		self.objects[object_id] = HeapObject(heap_index, num_bytes, num_pointers)
 
 	def collect(self):
-		s = FreeListsStatsGenerator(self.settings.heap_size, self.free_list)
-		bytes_before = s.bytes_used()
+		bytes_before = self.stats_generator.bytes_used()
 		self.collector.collect()
-		bytes_after = s.bytes_used()
+		bytes_after = self.stats_generator.bytes_used()
 		print('collecting... %d %d %d' % (self.settings.heap_size, bytes_before, bytes_after))
 
 	def stats(self):
-		s = FreeListsStatsGenerator(self.settings.heap_size, self.free_list)
 		return '''Statistics:
 	%d : objects
 	%f%% : heap used
 	%f : nodes in free list
-	%f : average size of free list node (bytes)''' % (len(self.objects), s.percent_used(), len(self.free_list), s.average_node_size())
+	%f : average size of free list node (bytes)''' % (len(self.objects),
+			self.stats_generator.percent_used(), len(self.free_list),
+			self.stats_generator.average_node_size())

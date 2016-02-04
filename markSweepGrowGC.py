@@ -9,12 +9,12 @@ class MarkSweepGrowGC:
 		self.objects = objects
 		self.rootset = rootset
 		self.free_list = free_list
+		self.stats_generator = FreeListsStatsGenerator(settings, free_list)
 
 	def collect(self):
 		self.mark()
 		self.sweep()
-		s = FreeListsStatsGenerator(self.settings.heap_size, self.free_list)
-		if s.percent_used() >= self.settings.high_water_percent:
+		if self.stats_generator.percent_used() >= self.settings.high_water_percent:
 			self.grow()
 
 	def mark(self):
