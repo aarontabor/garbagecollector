@@ -4,9 +4,9 @@ def add_node(free_list, node):
 	while i < len(free_list) and free_list[i].heap_index < node.heap_index:
 		i = i+1
 	free_list.insert(i, node)
-	merge_adjacent_nodes(free_list) # over-kill, but simple
+	_merge_adjacent_nodes(free_list) # over-kill, but simple
 
-def merge_adjacent_nodes(free_list):
+def _merge_adjacent_nodes(free_list):
 	i = 0
 	while i+1 < len(free_list):
 		node = free_list[i]
