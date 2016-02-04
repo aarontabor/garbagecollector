@@ -28,9 +28,3 @@ def test_creates_new_node_from_remaining_memory(allocator):
 	free_list = allocator.free_list
 	assert free_list[1].heap_index == 4
 	assert free_list[1].num_bytes == 1
-
-def test_maintains_ascending_heap_order(allocator):
-	allocator.free(6, 1)
-	free_list = allocator.free_list
-	assert free_list[2].heap_index == 6
-	assert free_list[2].num_bytes == 1

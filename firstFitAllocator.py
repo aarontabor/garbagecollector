@@ -11,10 +11,8 @@ class FirstFitAllocator:
 		for node in self.free_list:
 			if node.num_bytes >= num_bytes:
 				self.free_list.remove(node)
-				self.free(node.heap_index+num_bytes, node.num_bytes-num_bytes)
+				if node.num_bytes > num_bytes:
+					new_node = FreeListNode(node.heap_index+num_bytes, node.num_bytes-num_bytes)
+					add_node(self.free_list, new_node)
 				return node.heap_index
 		raise OutOfMemoryException
-
-	def free(self, heap_index, num_bytes):
-		add_node(self.free_list, FreeListNode(heap_index, num_bytes))
-

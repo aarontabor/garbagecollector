@@ -43,10 +43,6 @@ class MemoryMananager:
 		add_node(self.free_list, node)
 		self.heap_size = new_heap_size
 
-	def free(self, object_id):
-		o = self.objects.pop(object_id)
-		self.allocator.free(o.heap_index, o.num_bytes)
-
 	def stats(self):
 		s = FreeListsStatsGenerator(self.heap_size, self.free_list)
 		return '''Statistics:
