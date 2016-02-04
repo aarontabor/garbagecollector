@@ -2,7 +2,7 @@ from freeListNode import FreeListNode
 from heapObject import HeapObject
 from freeListStatsGenerator import FreeListsStatsGenerator 
 from outOfMemoryException import OutOfMemoryException
-from freeListUtils import add_node
+from utils import add_node
 
 
 class MemoryMananager:

@@ -1,6 +1,6 @@
 import pytest
 from freeListNode import FreeListNode
-from freeListUtils import add_node
+from utils import add_node
 
 
 @pytest.fixture
