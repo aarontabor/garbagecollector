@@ -50,9 +50,7 @@ def main():
 	except OutOfMemoryException:
 		print('Out of memory...')
 
-	finally:
-		print(m.stats())
-		print()
+	print(m.stats())
 
 
 if __name__ == '__main__':
