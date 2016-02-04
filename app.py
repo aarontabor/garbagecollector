@@ -1,4 +1,5 @@
-from sys import argv, stdin
+from sys import stdin
+from argparse import ArgumentParser
 from memoryManager import MemoryMananager
 from firstFitAllocator import FirstFitAllocator
 from markSweepGC import MarkSweepGC
@@ -6,13 +7,16 @@ from outOfMemoryException import OutOfMemoryException
 
 
 def main():
-	if len(argv) < 4:
-		print('Usage: ./app.py <heap size> <high water percent> <growth factor>')
-		exit(1)
+	parser = ArgumentParser()
+	parser.add_argument('--heap_size', type=int, default=1)
+	parser.add_argument('--high_water_percent', type=int, default=100)
+	parser.add_argument('--growth_factor', type=float, default=1.0)
+	settings = parser.parse_args()
 
-	heap_size = int(argv[1])
-	high_water_percent = int(argv[2])
-	growth_factor = float(argv[3])
+	heap_size = settings.heap_size
+	high_water_percent = settings.high_water_percent
+	growth_factor = settings.growth_factor
+
 	m = MemoryMananager(FirstFitAllocator, MarkSweepGC, heap_size, high_water_percent, growth_factor)
 
 	try:
