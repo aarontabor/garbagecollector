@@ -1,4 +1,4 @@
-class FreeListsStatsGenerator():
+class FreeListStatsGenerator():
 	def __init__(self, settings, free_list):
 		self.settings = settings
 		self.free_list = free_list

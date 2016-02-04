@@ -1,6 +1,6 @@
 from utils import add_node
 from freeListNode import FreeListNode
-from freeListStatsGenerator import FreeListsStatsGenerator
+from freeListStatsGenerator import FreeListStatsGenerator
 
 
 class MarkSweepGrowGC:
@@ -9,7 +9,7 @@ class MarkSweepGrowGC:
 		self.objects = objects
 		self.rootset = rootset
 		self.free_list = free_list
-		self.stats_generator = FreeListsStatsGenerator(settings, free_list)
+		self.stats_generator = FreeListStatsGenerator(settings, free_list)
 
 	def collect(self):
 		self.mark()

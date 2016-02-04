@@ -1,6 +1,6 @@
 from freeListNode import FreeListNode
 from heapObject import HeapObject
-from freeListStatsGenerator import FreeListsStatsGenerator 
+from freeListStatsGenerator import FreeListStatsGenerator 
 from outOfMemoryException import OutOfMemoryException
 from utils import add_node
 
@@ -13,7 +13,7 @@ class MemoryMananager:
 		self.rootset = set()
 		self.allocator = allocator_class(self.free_list, settings)
 		self.collector = collector_class(self.objects, self.rootset, self.free_list, settings)
-		self.stats_generator = FreeListsStatsGenerator(settings, self.free_list)
+		self.stats_generator = FreeListStatsGenerator(settings, self.free_list)
 
 	def allocate(self, object_id, num_bytes, num_pointers):
 		try:
