@@ -9,10 +9,10 @@ def allocator():
 	n1 = FreeListNode(0,1)
 	n2 = FreeListNode(2,3)
 	n3 = FreeListNode(9,3)
-	return FirstFitAllocator([n1, n2, n3])
+	return FirstFitAllocator([n1, n2, n3], settings=None)
 
 def test_throws_exception_when_empty_free_list():
-	f = FirstFitAllocator([])
+	f = FirstFitAllocator([], settings=None)
 	with pytest.raises(OutOfMemoryException):
 		f.allocate(1)
 

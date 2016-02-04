@@ -3,7 +3,8 @@ from freeListNode import FreeListNode
 
 
 class MarkSweepGC:
-	def __init__(self, objects, rootset, free_list):
+	def __init__(self, objects, rootset, free_list, settings):
+		self.settings = settings
 		self.objects = objects
 		self.rootset = rootset
 		self.free_list = free_list

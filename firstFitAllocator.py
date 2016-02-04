@@ -4,7 +4,8 @@ from outOfMemoryException import OutOfMemoryException
 
 
 class FirstFitAllocator:
-	def __init__(self, free_list):
+	def __init__(self, free_list, settings):
+		# So far, I don't really need settings, other allocators may...
 		self.free_list = free_list
 
 	def allocate(self, num_bytes):

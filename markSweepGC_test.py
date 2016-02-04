@@ -11,7 +11,7 @@ def test_collected_objects_returned_to_free_list():
 	rootset = set()
 	free_list = []
 
-	collector = MarkSweepGC(objects, rootset, free_list)
+	collector = MarkSweepGC(objects, rootset, free_list, settings=None)
 	collector.collect()
 
 	assert len(free_list) == 1
@@ -28,7 +28,7 @@ def test_collects_dead_cycles():
 	rootset = set()
 	free_list = []
 
-	collector = MarkSweepGC(objects, rootset, free_list)
+	collector = MarkSweepGC(objects, rootset, free_list, settings=None)
 	collector.collect()
 
 	live_objects = objects.values()
@@ -44,7 +44,7 @@ def test_preserves_nested_live_objects():
 	rootset = set([1])
 	free_list = []
 
-	collector = MarkSweepGC(objects, rootset, free_list)
+	collector = MarkSweepGC(objects, rootset, free_list, settings=None)
 	collector.collect()
 
 	live_objects = objects.values()

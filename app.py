@@ -13,11 +13,7 @@ def main():
 	parser.add_argument('--growth_factor', type=float, default=1.0)
 	settings = parser.parse_args()
 
-	heap_size = settings.heap_size
-	high_water_percent = settings.high_water_percent
-	growth_factor = settings.growth_factor
-
-	m = MemoryMananager(FirstFitAllocator, MarkSweepGC, heap_size, high_water_percent, growth_factor)
+	m = MemoryMananager(FirstFitAllocator, MarkSweepGC, settings)
 
 	try:
 		for line in stdin:
