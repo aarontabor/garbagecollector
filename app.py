@@ -2,7 +2,7 @@ from sys import stdin
 from argparse import ArgumentParser
 from memoryManager import MemoryMananager
 from firstFitAllocator import FirstFitAllocator
-from markSweepGC import MarkSweepGC
+from markSweepGrowGC import MarkSweepGrowGC
 from outOfMemoryException import OutOfMemoryException
 
 

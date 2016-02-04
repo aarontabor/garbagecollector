@@ -1,8 +1,9 @@
 from utils import add_node
 from freeListNode import FreeListNode
+from freeListStatsGenerator import FreeListsStatsGenerator
 
 
-class MarkSweepGC:
+class MarkSweepGrowGC:
 	def __init__(self, objects, rootset, free_list, settings):
 		self.settings = settings
 		self.objects = objects
@@ -12,6 +13,9 @@ class MarkSweepGC:
 	def collect(self):
 		self.mark()
 		self.sweep()
+		s = FreeListsStatsGenerator(self.settings.heap_size, self.free_list)
+		if s.percent_used() >= self.settings.high_water_percent:
+			self.grow()
 
 	def mark(self):
 		work_stack = []
@@ -37,3 +41,11 @@ class MarkSweepGC:
 
 		for object_id in toDelete:
 			self.objects.pop(object_id)
+
+	def grow(self):
+		new_heap_size = self.settings.heap_size * self.settings.growth_factor
+		heap_index = self.settings.heap_size
+		num_bytes = new_heap_size - self.settings.heap_size
+		node = FreeListNode(heap_index, num_bytes)
+		add_node(self.free_list, node)
+		self.settings.heap_size = new_heap_size

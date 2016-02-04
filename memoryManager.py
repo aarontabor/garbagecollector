@@ -14,30 +14,20 @@ class MemoryMananager:
 		self.allocator = allocator_class(self.free_list, settings)
 		self.collector = collector_class(self.objects, self.rootset, self.free_list, settings)
 
-	def allocate(self, object_id, num_bytes, num_pointers, force_grow=False):
+	def allocate(self, object_id, num_bytes, num_pointers):
 		try:
 			heap_index = self.allocator.allocate(num_bytes)
-			self.objects[object_id] = HeapObject(heap_index, num_bytes, num_pointers)
 		except OutOfMemoryException:
-			self.collect(force_grow)
-			self.allocate(object_id, num_bytes, num_pointers, force_grow=True) # try again
+			self.collect()
+			heap_index = self.allocator.allocate(num_bytes)
+		self.objects[object_id] = HeapObject(heap_index, num_bytes, num_pointers)
 
-	def collect(self, force_grow):
+	def collect(self):
 		s = FreeListsStatsGenerator(self.settings.heap_size, self.free_list)
 		bytes_before = s.bytes_used()
 		self.collector.collect()
 		bytes_after = s.bytes_used()
 		print('collecting... %d %d %d' % (self.settings.heap_size, bytes_before, bytes_after))
-		if s.percent_used() >= self.settings.high_water_percent or force_grow:
-			self.grow()
-
-	def grow(self):
-		new_heap_size = self.settings.heap_size * self.settings.growth_factor
-		heap_index = self.settings.heap_size
-		num_bytes = new_heap_size - self.settings.heap_size
-		node = FreeListNode(heap_index, num_bytes)
-		add_node(self.free_list, node)
-		self.settings.heap_size = new_heap_size
 
 	def stats(self):
 		s = FreeListsStatsGenerator(self.settings.heap_size, self.free_list)
