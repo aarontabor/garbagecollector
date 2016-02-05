@@ -3,6 +3,7 @@ from argparse import ArgumentParser
 from memoryManager import MemoryMananager
 from firstFitAllocator import FirstFitAllocator
 from markSweepGrowGC import MarkSweepGrowGC
+from copyingGC import CopyingGC
 from outOfMemoryException import OutOfMemoryException
 
 
@@ -11,9 +12,12 @@ def main():
 	parser.add_argument('--heap_size', type=int, default=1)
 	parser.add_argument('--high_water_percent', type=int, default=100)
 	parser.add_argument('--growth_factor', type=float, default=1.0)
+	parser.add_argument('collector', type=str)
 	settings = parser.parse_args()
 
-	m = MemoryMananager(FirstFitAllocator, MarkSweepGC, settings)
+	collector_class = parseCollectorClass(settings.collector)
+
+	m = MemoryMananager(FirstFitAllocator, collector_class, settings)
 
 	try:
 		for line in stdin:
@@ -52,6 +56,19 @@ def main():
 
 	print(m.stats())
 
+
+def parseCollectorClass(collector_name):
+	collector_class = None
+	if collector_name == 'mark_sweep_grow':
+		collector_class = MarkSweepGrowGC
+	elif collector_name == 'copying':
+		collector_class = CopyingGC
+
+	if collector_class == None:
+		raise InvalidCollectorName
+
+	return collector_class
+	
 
 if __name__ == '__main__':
 	main()
