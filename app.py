@@ -4,6 +4,7 @@ from memoryManager import MemoryMananager
 from firstFitAllocator import FirstFitAllocator
 from markSweepGrowGC import MarkSweepGrowGC
 from copyingGC import CopyingGC
+from nullGC import NullGC
 from referenceCountingWriteBarrier import ReferenceCountingWriteBarrier
 from outOfMemoryException import OutOfMemoryException
 
@@ -66,6 +67,8 @@ def parseCollectorClass(collector_name):
 		collector_class = MarkSweepGrowGC
 	elif collector_name == 'copying':
 		collector_class = CopyingGC
+	elif collector_name == 'null_gc':
+		collector_class = NullGC
 
 	if collector_class == None:
 		raise InvalidCollectorName
