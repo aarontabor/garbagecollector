@@ -17,7 +17,7 @@ def main():
 
 	collector_class = parseCollectorClass(settings.collector)
 
-	m = MemoryMananager(FirstFitAllocator, collector_class, settings)
+	m = MemoryMananager(FirstFitAllocator, collector_class, [], settings)
 
 	try:
 		for line in stdin:
@@ -37,19 +37,19 @@ def main():
 				pointer_index = int(tokens[3].lstrip('#'))
 				object_id = int(tokens[4].lstrip('O'))
 
-				m.objects[parent_id].pointers[pointer_index] = object_id
+				m.writePointer(parent_id, pointer_index, object_id)
 
 			if tokens[0] == '+': # add to rootset
 				thread_id = int(tokens[1].lstrip('T')) # ignoring this for now...
 				object_id = int(tokens[2].lstrip('O'))
 
-				m.rootset.add(object_id)
+				m.addRoot(object_id)
 
 			if tokens[0] == '-': # remove from rootset
 				thread_id = int(tokens[1].lstrip('T')) # ignoring this for now...
 				object_id = int(tokens[2].lstrip('O'))
 
-				m.rootset.remove(object_id)
+				m.removeRoot(object_id)
 
 	except OutOfMemoryException:
 		print('Out of memory...')
