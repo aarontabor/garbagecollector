@@ -4,6 +4,7 @@ from memoryManager import MemoryMananager
 from firstFitAllocator import FirstFitAllocator
 from markSweepGrowGC import MarkSweepGrowGC
 from copyingGC import CopyingGC
+from referenceCountingWriteBarrier import ReferenceCountingWriteBarrier
 from outOfMemoryException import OutOfMemoryException
 
 
@@ -12,12 +13,14 @@ def main():
 	parser.add_argument('--heap_size', type=int, default=1)
 	parser.add_argument('--high_water_percent', type=int, default=100)
 	parser.add_argument('--growth_factor', type=float, default=1.0)
+	parser.add_argument('--write_barrier', type=str, default='')
 	parser.add_argument('collector', type=str)
 	settings = parser.parse_args()
 
 	collector_class = parseCollectorClass(settings.collector)
+	write_barrier_classes = parseWriteBarrierClasses(settings.write_barrier)
 
-	m = MemoryMananager(FirstFitAllocator, collector_class, [], settings)
+	m = MemoryMananager(FirstFitAllocator, collector_class, write_barrier_classes, settings)
 
 	try:
 		for line in stdin:
@@ -69,6 +72,13 @@ def parseCollectorClass(collector_name):
 
 	return collector_class
 	
+def parseWriteBarrierClasses(write_barrier_name):
+	write_barrier_classes = []
+	if write_barrier_name == 'reference_counting':
+		write_barrier_classes.append(ReferenceCountingWriteBarrier)
+
+	return write_barrier_classes
+
 
 if __name__ == '__main__':
 	main()

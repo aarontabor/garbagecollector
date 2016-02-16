@@ -8,3 +8,4 @@ class HeapObject:
 		self.thread_id = thread_id # not using this, yet...
 
 		self.marked = False
+		self.referenceCount = 0
