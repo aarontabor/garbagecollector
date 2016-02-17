@@ -5,7 +5,9 @@ from firstFitAllocator import FirstFitAllocator
 from markSweepGrowGC import MarkSweepGrowGC
 from copyingGC import CopyingGC
 from nullGC import NullGC
+from recyclerGC import RecyclerGC
 from referenceCountingWriteBarrier import ReferenceCountingWriteBarrier
+from recyclerWriteBarrier import RecyclerWriteBarrier
 from outOfMemoryException import OutOfMemoryException
 
 
@@ -69,6 +71,8 @@ def parseCollectorClass(collector_name):
 		collector_class = CopyingGC
 	elif collector_name == 'null_gc':
 		collector_class = NullGC
+	elif collector_name == 'recycler':
+		collector_class = RecyclerGC
 
 	if collector_class == None:
 		raise InvalidCollectorName
@@ -79,6 +83,8 @@ def parseWriteBarrierClasses(write_barrier_name):
 	write_barrier_classes = []
 	if write_barrier_name == 'reference_counting':
 		write_barrier_classes.append(ReferenceCountingWriteBarrier)
+	elif write_barrier_name == 'recycler':
+		write_barrier_classes.append(RecyclerWriteBarrier)
 
 	return write_barrier_classes
 

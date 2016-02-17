@@ -9,3 +9,4 @@ class HeapObject:
 
 		self.marked = False
 		self.referenceCount = 0
+		self.color = 'black'
