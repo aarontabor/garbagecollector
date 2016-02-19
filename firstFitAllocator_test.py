@@ -23,6 +23,10 @@ def test_throws_exception_when_no_appropriate_free_node(allocator):
 	with pytest.raises(OutOfMemoryException):
 		allocator.allocate(4)
 
+def test_pops_free_list_node_upon_allocation(allocator):
+	allocator.allocate(3) == 2
+	assert len(allocator.free_list) == 2
+
 def test_creates_new_node_from_remaining_memory(allocator):
 	allocator.allocate(2) == 2
 	free_list = allocator.free_list
