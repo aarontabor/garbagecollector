@@ -4,15 +4,20 @@ def add_node(free_list, node):
 	while i < len(free_list) and free_list[i].heap_index < node.heap_index:
 		i = i+1
 	free_list.insert(i, node)
-	_merge_adjacent_nodes(free_list) # over-kill, but simple
+	_merge_adjacent_nodes(free_list, i)
 
-def _merge_adjacent_nodes(free_list):
-	i = 0
-	while i+1 < len(free_list):
-		node = free_list[i]
-		next_node = free_list[i+1]
+def _merge_adjacent_nodes(free_list, index):
+	if index < len(free_list)-1:
+		# try next node
+		node = free_list[index]
+		next_node = free_list[index+1]
 		if node.adjacent_to(next_node):
 			node.num_bytes = node.num_bytes + next_node.num_bytes
-			free_list.remove(next_node)
-		else:
-			i = i+1
+			free_list.pop(index+1)
+	if index > 0:
+		# try previous node
+		node = free_list[index]
+		prev_node = free_list[index-1]
+		if node.adjacent_to(prev_node):
+			prev_node.num_bytes = prev_node.num_bytes + node.num_bytes
+			free_list.pop(index)
