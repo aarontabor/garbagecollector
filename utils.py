@@ -1,8 +1,9 @@
+from bisect import bisect_left
+
+
 # maintains heap_index order
 def add_node(free_list, node):
-	i=0
-	while i < len(free_list) and free_list[i].heap_index < node.heap_index:
-		i = i+1
+	i = bisect_left(free_list, node)  # performs binary-search
 	free_list.insert(i, node)
 	_merge_adjacent_nodes(free_list, i)
 

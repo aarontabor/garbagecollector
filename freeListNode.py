@@ -13,3 +13,9 @@ class FreeListNode:
 
 	def __repr__(self):
 		return "<%d, %d>" % (self.heap_index, self.num_bytes)
+
+	def __lt__(self, other):
+		return self.heap_index < other.heap_index
+
+	def __eq__(self, other):
+		return self.heap_index == other.heap_index
