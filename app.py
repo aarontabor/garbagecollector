@@ -2,6 +2,7 @@ from sys import stdin
 from argparse import ArgumentParser
 from memoryManager import MemoryMananager
 from firstFitAllocator import FirstFitAllocator
+from nextFitAllocator import NextFitAllocator
 from markSweepGrowGC import MarkSweepGrowGC
 from copyingGC import CopyingGC
 from nullGC import NullGC
@@ -17,13 +18,15 @@ def main():
 	parser.add_argument('--high_water_percent', type=int, default=100)
 	parser.add_argument('--growth_factor', type=float, default=1.0)
 	parser.add_argument('--write_barrier', type=str, default='')
+	parser.add_argument('--allocator', type=str, default='first_fit')
 	parser.add_argument('collector', type=str)
 	settings = parser.parse_args()
 
 	collector_class = parseCollectorClass(settings.collector)
+	allocator_class = parseAllocatorClass(settings.allocator)
 	write_barrier_classes = parseWriteBarrierClasses(settings.write_barrier)
 
-	m = MemoryMananager(FirstFitAllocator, collector_class, write_barrier_classes, settings)
+	m = MemoryMananager(allocator_class, collector_class, write_barrier_classes, settings)
 
 	try:
 		for line in stdin:
@@ -87,6 +90,18 @@ def parseWriteBarrierClasses(write_barrier_name):
 		write_barrier_classes.append(RecyclerWriteBarrier)
 
 	return write_barrier_classes
+
+def parseAllocatorClass(allocator_name):
+	allocator_class = None
+	if allocator_name == 'first_fit':
+		allocator_class = FirstFitAllocator
+	elif allocator_name == 'next_fit':
+		allocator_class = NextFitAllocator
+
+	if allocator_class == None:
+		raise InvalidAllocatorName
+
+	return allocator_class
 
 
 if __name__ == '__main__':
