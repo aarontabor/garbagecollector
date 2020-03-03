@@ -81,7 +81,7 @@ def parseCollectorClass(collector_name):
 		raise InvalidCollectorName
 
 	return collector_class
-	
+
 def parseWriteBarrierClasses(write_barrier_name):
 	write_barrier_classes = []
 	if write_barrier_name == 'reference_counting':
