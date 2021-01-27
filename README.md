@@ -29,6 +29,6 @@ To run a single test file, specify the filename:
 
 In this phase of the project, I conduct a survery of methods for addressing the concurreny limitations of cPython (i.e., the standard implementation of Python in use). While the python language supports multi-threaded applications, "true" concurreny is not possible in the language because of a structure known as the Global Interpreter Lock (or GIL), which restricts the python interpreter to a single thread of execution at a time. Given that the garbage collection policy employed in python is a particularly challenging obstacle that prevents the GIL from being removed, I explore how python's garbage collection could be adapted to better support concurrency.
 
-More information can be found in the [project report](https://drive.google.com/file/d/1RJNERZzvQnM_aKjiL4XrBbyP0kn7hD2y/view?usp=sharing): 
+More information can be found in the [project report](https://drive.google.com/file/d/1RJNERZzvQnM_aKjiL4XrBbyP0kn7hD2y/view?usp=sharing).
 
 
